@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		1143EF7B2F0A4F5B0063692C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1143EF642F0A4F590063692C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1143EF6B2F0A4F590063692C;
+			remoteInfo = "battery-kawaii";
+		};
+		1143EF852F0A4F5B0063692C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1143EF642F0A4F590063692C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1143EF6B2F0A4F590063692C;
+			remoteInfo = "battery-kawaii";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1143EF6C2F0A4F590063692C /* battery-kawaii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "battery-kawaii.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1143EF7A2F0A4F5B0063692C /* battery-kawaiiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "battery-kawaiiTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1143EF842F0A4F5B0063692C /* battery-kawaiiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "battery-kawaiiUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1143EF6E2F0A4F590063692C /* battery-kawaii */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "battery-kawaii";
+			sourceTree = "<group>";
+		};
+		1143EF7D2F0A4F5B0063692C /* battery-kawaiiTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "battery-kawaiiTests";
+			sourceTree = "<group>";
+		};
+		1143EF872F0A4F5B0063692C /* battery-kawaiiUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "battery-kawaiiUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1143EF692F0A4F590063692C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF772F0A4F5B0063692C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF812F0A4F5B0063692C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1143EF632F0A4F590063692C = {
+			isa = PBXGroup;
+			children = (
+				1143EF6E2F0A4F590063692C /* battery-kawaii */,
+				1143EF7D2F0A4F5B0063692C /* battery-kawaiiTests */,
+				1143EF872F0A4F5B0063692C /* battery-kawaiiUITests */,
+				1143EF6D2F0A4F590063692C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1143EF6D2F0A4F590063692C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1143EF6C2F0A4F590063692C /* battery-kawaii.app */,
+				1143EF7A2F0A4F5B0063692C /* battery-kawaiiTests.xctest */,
+				1143EF842F0A4F5B0063692C /* battery-kawaiiUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1143EF6B2F0A4F590063692C /* battery-kawaii */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1143EF8E2F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaii" */;
+			buildPhases = (
+				1143EF682F0A4F590063692C /* Sources */,
+				1143EF692F0A4F590063692C /* Frameworks */,
+				1143EF6A2F0A4F590063692C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1143EF6E2F0A4F590063692C /* battery-kawaii */,
+			);
+			name = "battery-kawaii";
+			packageProductDependencies = (
+			);
+			productName = "battery-kawaii";
+			productReference = 1143EF6C2F0A4F590063692C /* battery-kawaii.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1143EF792F0A4F5B0063692C /* battery-kawaiiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1143EF912F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaiiTests" */;
+			buildPhases = (
+				1143EF762F0A4F5B0063692C /* Sources */,
+				1143EF772F0A4F5B0063692C /* Frameworks */,
+				1143EF782F0A4F5B0063692C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1143EF7C2F0A4F5B0063692C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1143EF7D2F0A4F5B0063692C /* battery-kawaiiTests */,
+			);
+			name = "battery-kawaiiTests";
+			packageProductDependencies = (
+			);
+			productName = "battery-kawaiiTests";
+			productReference = 1143EF7A2F0A4F5B0063692C /* battery-kawaiiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1143EF832F0A4F5B0063692C /* battery-kawaiiUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1143EF942F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaiiUITests" */;
+			buildPhases = (
+				1143EF802F0A4F5B0063692C /* Sources */,
+				1143EF812F0A4F5B0063692C /* Frameworks */,
+				1143EF822F0A4F5B0063692C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1143EF862F0A4F5B0063692C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1143EF872F0A4F5B0063692C /* battery-kawaiiUITests */,
+			);
+			name = "battery-kawaiiUITests";
+			packageProductDependencies = (
+			);
+			productName = "battery-kawaiiUITests";
+			productReference = 1143EF842F0A4F5B0063692C /* battery-kawaiiUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1143EF642F0A4F590063692C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					1143EF6B2F0A4F590063692C = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					1143EF792F0A4F5B0063692C = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 1143EF6B2F0A4F590063692C;
+					};
+					1143EF832F0A4F5B0063692C = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 1143EF6B2F0A4F590063692C;
+					};
+				};
+			};
+			buildConfigurationList = 1143EF672F0A4F590063692C /* Build configuration list for PBXProject "battery-kawaii" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1143EF632F0A4F590063692C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1143EF6D2F0A4F590063692C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1143EF6B2F0A4F590063692C /* battery-kawaii */,
+				1143EF792F0A4F5B0063692C /* battery-kawaiiTests */,
+				1143EF832F0A4F5B0063692C /* battery-kawaiiUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1143EF6A2F0A4F590063692C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF782F0A4F5B0063692C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF822F0A4F5B0063692C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1143EF682F0A4F590063692C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF762F0A4F5B0063692C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1143EF802F0A4F5B0063692C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1143EF7C2F0A4F5B0063692C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1143EF6B2F0A4F590063692C /* battery-kawaii */;
+			targetProxy = 1143EF7B2F0A4F5B0063692C /* PBXContainerItemProxy */;
+		};
+		1143EF862F0A4F5B0063692C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1143EF6B2F0A4F590063692C /* battery-kawaii */;
+			targetProxy = 1143EF852F0A4F5B0063692C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1143EF8C2F0A4F5B0063692C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1143EF8D2F0A4F5B0063692C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		1143EF8F2F0A4F5B0063692C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "battery-kawaii/battery_kawaii.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaii";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1143EF902F0A4F5B0063692C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "battery-kawaii/battery_kawaii.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaii";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1143EF922F0A4F5B0063692C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaiiTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/battery-kawaii.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/battery-kawaii";
+			};
+			name = Debug;
+		};
+		1143EF932F0A4F5B0063692C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaiiTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/battery-kawaii.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/battery-kawaii";
+			};
+			name = Release;
+		};
+		1143EF952F0A4F5B0063692C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaiiUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "battery-kawaii";
+			};
+			name = Debug;
+		};
+		1143EF962F0A4F5B0063692C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.nozomifukawa.battery-kawaiiUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "battery-kawaii";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1143EF672F0A4F590063692C /* Build configuration list for PBXProject "battery-kawaii" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1143EF8C2F0A4F5B0063692C /* Debug */,
+				1143EF8D2F0A4F5B0063692C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1143EF8E2F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaii" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1143EF8F2F0A4F5B0063692C /* Debug */,
+				1143EF902F0A4F5B0063692C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1143EF912F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaiiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1143EF922F0A4F5B0063692C /* Debug */,
+				1143EF932F0A4F5B0063692C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1143EF942F0A4F5B0063692C /* Build configuration list for PBXNativeTarget "battery-kawaiiUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1143EF952F0A4F5B0063692C /* Debug */,
+				1143EF962F0A4F5B0063692C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1143EF642F0A4F590063692C /* Project object */;
+}
