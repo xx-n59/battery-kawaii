@@ -11,12 +11,13 @@ import SwiftUI
 @MainActor
 struct battery_kawaiiApp: App {
     @StateObject private var batteryMonitor = BatteryMonitor()
+    @AppStorage(BatteryDesign.storageKey) private var design: BatteryDesign = .classic
 
     var body: some Scene {
         MenuBarExtra {
-            BatteryDetailView(monitor: batteryMonitor)
+            BatteryDetailView(monitor: batteryMonitor, design: $design)
         } label: {
-            MenuBarLabel(batteryLevel: batteryMonitor.batteryLevel, isCharging: batteryMonitor.isCharging)
+            MenuBarLabel(batteryLevel: batteryMonitor.batteryLevel, isCharging: batteryMonitor.isCharging, design: design)
         }
         .menuBarExtraStyle(.window)
     }
@@ -28,10 +29,11 @@ struct MenuBarLabel: View {
     @Environment(\.displayScale) private var displayScale
     let batteryLevel: Int
     let isCharging: Bool
+    let design: BatteryDesign
 
     var body: some View {
         HStack(spacing: 3) {
-            MenuBarCharacterProvider.getImage(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: displayScale)
+            MenuBarCharacterProvider.getImage(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: displayScale, design: design)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(height: 18)
@@ -40,5 +42,7 @@ struct MenuBarLabel: View {
                 .font(.system(size: 11, weight: .medium, design: .rounded))
                 .monospacedDigit()
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("バッテリー \(batteryLevel)%、\(design.name)\(isCharging ? "、充電中" : "")")
     }
 }

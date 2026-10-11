@@ -30,21 +30,22 @@ struct MenuBarCharacterProvider {
         let isCharging: Bool
         let colorScheme: ColorScheme
         let scale: CGFloat
+        let design: BatteryDesign
     }
 
     // 直近の一枚だけ保持し、残り時間などの更新で画像を作り直さない。
     private static var cachedImage: (key: CacheKey, image: NSImage)?
 
-    static func getImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat) -> Image {
-        Image(nsImage: getNSImage(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale))
+    static func getImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat, design: BatteryDesign = .classic) -> Image {
+        Image(nsImage: getNSImage(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale, design: design))
     }
 
-    static func getNSImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat) -> NSImage {
-        let key = CacheKey(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale)
+    static func getNSImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat, design: BatteryDesign = .classic) -> NSImage {
+        let key = CacheKey(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale, design: design)
         if let cachedImage, cachedImage.key == key {
             return cachedImage.image
         }
-        let view = BatteryCharacterView(batteryLevel: batteryLevel, isCharging: isCharging)
+        let view = BatteryCharacterView(batteryLevel: batteryLevel, isCharging: isCharging, design: design)
             .environment(\.colorScheme, colorScheme)
         let nsImage = view.renderAsImage(size: CGSize(width: 18, height: 22), scale: scale)
         nsImage.isTemplate = false  // カラーで表示
@@ -56,26 +57,63 @@ struct MenuBarCharacterProvider {
 struct BatteryCharacterView: View {
     let batteryLevel: Int
     let isCharging: Bool
+    var design: BatteryDesign = .classic
+    var size: CGFloat = 22
 
     var body: some View {
         ZStack {
             // バッテリー本体
-            BatteryBody(fillLevel: batteryLevel, color: batteryColor)
+            BatteryBody(fillLevel: batteryLevel, color: batteryColor, design: design)
+
+            faceDecoration
 
             // 顔
             VStack(spacing: 1) {
                 // 目
                 HStack(spacing: 3) {
-                    EyeView(style: eyeStyle)
-                    EyeView(style: eyeStyle)
+                    EyeView(style: eyeStyle, isPixel: design == .pixel)
+                    EyeView(style: eyeStyle, isPixel: design == .pixel)
                 }
 
                 // 口
-                MouthView(style: mouthStyle)
+                MouthView(style: mouthStyle, isPixel: design == .pixel)
             }
-            .offset(y: -1)
+            .offset(y: design == .classic ? -1 : 1)
         }
         .frame(width: 18, height: 22)
+        .scaleEffect(size / 22)
+        .frame(width: 18 * size / 22, height: size)
+        .accessibilityHidden(true)
+    }
+
+    @ViewBuilder
+    private var faceDecoration: some View {
+        switch design {
+        case .cat:
+            Path { path in
+                for x: CGFloat in [1, 14] {
+                    path.move(to: CGPoint(x: x, y: 13))
+                    path.addLine(to: CGPoint(x: x + 3, y: 13.5))
+                    path.move(to: CGPoint(x: x, y: 15))
+                    path.addLine(to: CGPoint(x: x + 3, y: 14.5))
+                }
+            }
+            .stroke(Color.primary.opacity(0.8), style: StrokeStyle(lineWidth: 0.7, lineCap: .round))
+        case .bunny, .bear:
+            HStack(spacing: 8) {
+                Ellipse().fill(Color.pink.opacity(0.5))
+                Ellipse().fill(Color.pink.opacity(0.5))
+            }
+            .frame(width: 13, height: 1.8)
+            .offset(y: 3)
+        case .robot:
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color.primary.opacity(0.08))
+                .frame(width: 11, height: 7)
+                .offset(y: 0.5)
+        case .classic, .pixel:
+            EmptyView()
+        }
     }
 
     // 残量に応じた色
@@ -89,7 +127,7 @@ struct BatteryCharacterView: View {
         case 21...50:
             return .orange
         default:
-            return .green
+            return design.accentColor
         }
     }
 
@@ -135,36 +173,115 @@ struct BatteryCharacterView: View {
 struct BatteryBody: View {
     let fillLevel: Int
     let color: Color
+    let design: BatteryDesign
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // バッテリー外枠
-            VStack(spacing: 0) {
-                // 突起部分
-                RoundedRectangle(cornerRadius: 1)
-                    .fill(Color.primary.opacity(0.6))
-                    .frame(width: 6, height: 2)
+        ZStack {
+            decorations
 
-                // 本体
-                RoundedRectangle(cornerRadius: 3)
-                    .stroke(Color.primary.opacity(0.6), lineWidth: 1.5)
-                    .frame(width: 14, height: 18)
+            BatteryShell(design: design)
+                .fill(color.opacity(0.06))
+
+            // 全デザインで下から残量を表示する。耳などの飾りは残量に含めない。
+            Rectangle()
+                .fill(color.opacity(0.35))
+                .frame(width: 18, height: fillHeight)
+                .position(x: 9, y: 21 - fillHeight / 2)
+                .clipShape(BatteryShell(design: design))
+
+            BatteryShell(design: design)
+                .stroke(Color.primary.opacity(0.65), style: StrokeStyle(lineWidth: 1.2, lineJoin: design == .pixel ? .miter : .round))
+        }
+        .frame(width: 18, height: 22)
+    }
+
+    private var fillHeight: CGFloat {
+        16 * CGFloat(min(100, max(0, fillLevel))) / 100
+    }
+
+    @ViewBuilder
+    private var decorations: some View {
+        switch design {
+        case .classic, .pixel:
+            RoundedRectangle(cornerRadius: design == .pixel ? 0 : 1)
+                .fill(Color.primary.opacity(0.65))
+                .frame(width: 6, height: 2)
+                .position(x: 9, y: 3)
+        case .cat:
+            HStack(spacing: 6) {
+                Triangle().fill(Color.pink.opacity(0.5))
+                Triangle().fill(Color.pink.opacity(0.5))
             }
-
-            // 残量表示（塗りつぶし）
-            VStack(spacing: 0) {
-                Spacer().frame(height: 2) // 突起分のオフセット
-                ZStack(alignment: .bottom) {
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(Color.clear)
-                        .frame(width: 12, height: 16)
-
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(color.opacity(0.3))
-                        .frame(width: 12, height: max(2, 16 * CGFloat(fillLevel) / 100))
-                }
+            .frame(width: 12, height: 3)
+            .position(x: 9, y: 4.5)
+        case .bunny:
+            ForEach([5.0, 13.0], id: \.self) { x in
+                Capsule()
+                    .fill(color.opacity(0.18))
+                    .overlay { Capsule().stroke(Color.primary.opacity(0.65), lineWidth: 1.1) }
+                    .overlay { Capsule().fill(Color.pink.opacity(0.4)).frame(width: 1.2, height: 3.5) }
+                    .frame(width: 3.5, height: 7)
+                    .rotationEffect(.degrees(x < 9 ? -8 : 8))
+                    .position(x: x, y: 4.2)
+            }
+        case .bear:
+            ForEach([4.0, 14.0], id: \.self) { x in
+                Circle()
+                    .fill(color.opacity(0.3))
+                    .overlay { Circle().stroke(Color.primary.opacity(0.65), lineWidth: 1.1) }
+                    .overlay { Circle().fill(color.opacity(0.4)).padding(1.5) }
+                    .frame(width: 5, height: 5)
+                    .position(x: x, y: 4)
+            }
+        case .robot:
+            Path { path in
+                path.move(to: CGPoint(x: 9, y: 2))
+                path.addLine(to: CGPoint(x: 9, y: 5))
+            }
+            .stroke(Color.primary.opacity(0.65), lineWidth: 1)
+            Circle().fill(color).frame(width: 2.5, height: 2.5).position(x: 9, y: 1.8)
+            ForEach([1.0, 17.0], id: \.self) { x in
+                RoundedRectangle(cornerRadius: 0.5)
+                    .fill(Color.primary.opacity(0.65))
+                    .frame(width: 1.5, height: 5)
+                    .position(x: x, y: 12)
             }
         }
+    }
+}
+
+private struct BatteryShell: Shape {
+    let design: BatteryDesign
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        switch design {
+        case .cat:
+            path.move(to: CGPoint(x: 2, y: 18))
+            path.addLine(to: CGPoint(x: 2, y: 2))
+            path.addLine(to: CGPoint(x: 6.5, y: 6))
+            path.addQuadCurve(to: CGPoint(x: 11.5, y: 6), control: CGPoint(x: 9, y: 5))
+            path.addLine(to: CGPoint(x: 16, y: 2))
+            path.addLine(to: CGPoint(x: 16, y: 18))
+            path.addQuadCurve(to: CGPoint(x: 13, y: 21), control: CGPoint(x: 16, y: 21))
+            path.addLine(to: CGPoint(x: 5, y: 21))
+            path.addQuadCurve(to: CGPoint(x: 2, y: 18), control: CGPoint(x: 2, y: 21))
+            path.closeSubpath()
+        case .pixel:
+            path.move(to: CGPoint(x: 4, y: 5))
+            for point in [CGPoint(x: 14, y: 5), CGPoint(x: 14, y: 7), CGPoint(x: 16, y: 7),
+                          CGPoint(x: 16, y: 19), CGPoint(x: 14, y: 19), CGPoint(x: 14, y: 21),
+                          CGPoint(x: 4, y: 21), CGPoint(x: 4, y: 19), CGPoint(x: 2, y: 19),
+                          CGPoint(x: 2, y: 7), CGPoint(x: 4, y: 7)] {
+                path.addLine(to: point)
+            }
+            path.closeSubpath()
+        case .classic, .bunny, .bear, .robot:
+            let top: CGFloat = design == .bunny ? 6 : 4.5
+            let radius: CGFloat = design == .robot ? 1.5 : (design == .classic ? 3 : 5)
+            path.addRoundedRect(in: CGRect(x: 2, y: top, width: 14, height: 21 - top), cornerSize: CGSize(width: radius, height: radius))
+        }
+        return path.applying(CGAffineTransform(scaleX: rect.width / 18, y: rect.height / 22))
     }
 }
 
@@ -180,11 +297,12 @@ enum EyeStyle {
 
 struct EyeView: View {
     let style: EyeStyle
+    var isPixel = false
 
     var body: some View {
         switch style {
         case .sparkle:
-            Circle()
+            RoundedRectangle(cornerRadius: isPixel ? 0 : 1.5)
                 .fill(Color.primary)
                 .frame(width: 3, height: 3)
                 .overlay(
@@ -194,7 +312,7 @@ struct EyeView: View {
                         .offset(x: -0.5, y: -0.5)
                 )
         case .normal:
-            Circle()
+            RoundedRectangle(cornerRadius: isPixel ? 0 : 1)
                 .fill(Color.primary)
                 .frame(width: 2, height: 2)
         case .tired:
@@ -227,14 +345,26 @@ enum MouthStyle {
 
 struct MouthView: View {
     let style: MouthStyle
+    var isPixel = false
 
     var body: some View {
         switch style {
         case .happy:
             // 笑顔（U字型）
-            Arc(startAngle: .degrees(0), endAngle: .degrees(180), clockwise: false)
+            if isPixel {
+                Path { path in
+                    path.move(to: CGPoint(x: 0, y: 0))
+                    path.addLine(to: CGPoint(x: 0, y: 2))
+                    path.addLine(to: CGPoint(x: 4, y: 2))
+                    path.addLine(to: CGPoint(x: 4, y: 0))
+                }
                 .stroke(Color.primary, lineWidth: 1)
                 .frame(width: 4, height: 2)
+            } else {
+                Arc(startAngle: .degrees(0), endAngle: .degrees(180), clockwise: false)
+                    .stroke(Color.primary, lineWidth: 1)
+                    .frame(width: 4, height: 2)
+            }
         case .neutral:
             // 普通（横線）
             RoundedRectangle(cornerRadius: 0.5)

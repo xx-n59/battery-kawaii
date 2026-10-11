@@ -143,5 +143,19 @@ struct battery_kawaiiTests {
         #expect(charging !== dark)
         let smaller = MenuBarCharacterProvider.getNSImage(batteryLevel: 70, isCharging: true, colorScheme: .dark, scale: 1)
         #expect(dark !== smaller)
+
+        // 残量が変わらなくても、デザイン選択ですぐ画像が切り替わる。
+        var previous = smaller
+        for design in BatteryDesign.allCases where design != .classic {
+            let selected = MenuBarCharacterProvider.getNSImage(batteryLevel: 70, isCharging: true, colorScheme: .dark, scale: 1, design: design)
+            #expect(previous !== selected)
+            #expect(previous.tiffRepresentation != selected.tiffRepresentation)
+            let repeated = MenuBarCharacterProvider.getNSImage(batteryLevel: 70, isCharging: true, colorScheme: .dark, scale: 1, design: design)
+            #expect(selected === repeated)
+            previous = selected
+        }
+        let restored = MenuBarCharacterProvider.getNSImage(batteryLevel: 70, isCharging: true, colorScheme: .dark, scale: 1, design: .classic)
+        #expect(previous !== restored)
+        #expect(smaller.tiffRepresentation == restored.tiffRepresentation)
     }
 }

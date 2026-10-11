@@ -9,14 +9,13 @@ import SwiftUI
 
 struct BatteryDetailView: View {
     @ObservedObject var monitor: BatteryMonitor
+    @Binding var design: BatteryDesign
 
     var body: some View {
         VStack(spacing: 16) {
             // バッテリーアイコンと残量
             HStack(spacing: 12) {
-                Image(systemName: monitor.batteryIcon)
-                    .font(.system(size: 48))
-                    .foregroundColor(batteryColor)
+                BatteryCharacterView(batteryLevel: monitor.batteryLevel, isCharging: monitor.isCharging, design: design, size: 58)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(monitor.batteryLevel)%")
@@ -60,6 +59,11 @@ struct BatteryDetailView: View {
 
             Divider()
 
+            BatteryDesignPicker(selection: $design, batteryLevel: monitor.batteryLevel, isCharging: monitor.isCharging)
+                .padding(.horizontal)
+
+            Divider()
+
             // 終了ボタン
             Button(action: {
                 NSApplication.shared.terminate(nil)
@@ -74,7 +78,8 @@ struct BatteryDetailView: View {
             .padding(.horizontal)
             .padding(.bottom, 8)
         }
-        .frame(width: 280, height: 280)
+        .padding(.vertical, 8)
+        .frame(width: 300)
         .background(Color(NSColor.windowBackgroundColor))
         .onAppear {
             monitor.refreshBatteryDetailsIfNeeded()
@@ -121,5 +126,5 @@ struct DetailRow: View {
 }
 
 #Preview {
-    BatteryDetailView(monitor: BatteryMonitor())
+    BatteryDetailView(monitor: BatteryMonitor(), design: .constant(.classic))
 }
