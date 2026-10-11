@@ -9,7 +9,6 @@ import SwiftUI
 
 struct BatteryDetailView: View {
     @ObservedObject var monitor: BatteryMonitor
-    @State private var isAnimating = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -18,7 +17,6 @@ struct BatteryDetailView: View {
                 Image(systemName: monitor.batteryIcon)
                     .font(.system(size: 48))
                     .foregroundColor(batteryColor)
-                    .symbolEffect(.pulse, options: .repeating, isActive: monitor.isCharging)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(monitor.batteryLevel)%")
@@ -78,6 +76,9 @@ struct BatteryDetailView: View {
         }
         .frame(width: 280, height: 280)
         .background(Color(NSColor.windowBackgroundColor))
+        .onAppear {
+            monitor.refreshBatteryDetailsIfNeeded()
+        }
     }
 
     var batteryColor: Color {

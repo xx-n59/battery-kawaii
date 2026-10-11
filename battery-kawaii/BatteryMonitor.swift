@@ -6,98 +6,167 @@
 //
 
 import Foundation
+import Combine
 import IOKit.ps
 
-class BatteryMonitor: ObservableObject {
-    @Published var batteryLevel: Int = 100
-    @Published var isCharging: Bool = false
-    @Published var isPluggedIn: Bool = false
-    @Published var timeRemaining: Int? = nil
-    @Published var cycleCount: Int? = nil
-    @Published var batteryHealth: String = "不明"
+@MainActor
+final class BatteryMonitor: ObservableObject {
+    struct BatteryDetails {
+        var cycleCount: Int? = nil
+        var health: String = "不明"
+    }
 
-    private var timer: Timer?
+    @Published private(set) var batteryLevel: Int = 100
+    @Published private(set) var isCharging: Bool = false
+    @Published private(set) var isPluggedIn: Bool = false
+    @Published private(set) var timeRemaining: Int? = nil
+    @Published private(set) var cycleCount: Int? = nil
+    @Published private(set) var batteryHealth: String = "不明"
 
-    init() {
-        updateBatteryInfo()
-        startMonitoring()
+    private var notificationSource: CFRunLoopSource?
+    private var fallbackTimer: Timer?
+    private var lastDetailsUpdate: TimeInterval?
+    private let powerSourceProvider: () -> [String: Any]?
+    private let detailsProvider: () -> BatteryDetails
+
+    init(
+        automaticallyMonitors: Bool = true,
+        powerSourceProvider: @escaping () -> [String: Any]? = BatteryMonitor.readPowerSourceInfo,
+        detailsProvider: @escaping () -> BatteryDetails = BatteryMonitor.readBatteryDetails
+    ) {
+        self.powerSourceProvider = powerSourceProvider
+        self.detailsProvider = detailsProvider
+        if automaticallyMonitors {
+            startMonitoring()
+        }
     }
 
     deinit {
-        stopMonitoring()
+        if let notificationSource {
+            CFRunLoopSourceInvalidate(notificationSource)
+        }
+        fallbackTimer?.invalidate()
     }
 
     func startMonitoring() {
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
-            self?.updateBatteryInfo()
+        guard notificationSource == nil, fallbackTimer == nil else { return }
+
+        // メインRunLoop上で電源情報の変更時だけ読み直す。
+        let context = Unmanaged.passUnretained(self).toOpaque()
+        if let source = IOPSNotificationCreateRunLoopSource({ context in
+            guard let context else { return }
+            MainActor.assumeIsolated {
+                let monitor = Unmanaged<BatteryMonitor>.fromOpaque(context).takeUnretainedValue()
+                monitor.updateBatteryInfo()
+            }
+        }, context)?.takeRetainedValue() {
+            notificationSource = source
+            CFRunLoopAddSource(CFRunLoopGetMain(), source, .commonModes)
+        } else {
+            // 通知を登録できなかった場合だけ低頻度のタイマーを使う。
+            let timer = Timer(timeInterval: 60, repeats: true) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    self?.updateBatteryInfo()
+                }
+            }
+            timer.tolerance = 10
+            fallbackTimer = timer
+            RunLoop.main.add(timer, forMode: .common)
         }
+
+        updateBatteryInfo()
     }
 
     func stopMonitoring() {
-        timer?.invalidate()
-        timer = nil
+        if let notificationSource {
+            CFRunLoopSourceInvalidate(notificationSource)
+            self.notificationSource = nil
+        }
+        fallbackTimer?.invalidate()
+        fallbackTimer = nil
     }
 
     func updateBatteryInfo() {
-        guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
-              let sources = IOPSCopyPowerSourcesList(snapshot)?.takeRetainedValue() as? [CFTypeRef],
-              let source = sources.first,
-              let info = IOPSGetPowerSourceDescription(snapshot, source)?.takeUnretainedValue() as? [String: Any] else {
-            return
+        guard let info = powerSourceProvider() else { return }
+
+        // 同じ値をPublishedに代入すると再描画が発生するので、変更時だけ通知する。
+        if let capacity = info[kIOPSCurrentCapacityKey] as? Int, batteryLevel != capacity {
+            batteryLevel = capacity
+        }
+        if let charging = info[kIOPSIsChargingKey] as? Bool, isCharging != charging {
+            isCharging = charging
+        }
+        if let powerSource = info[kIOPSPowerSourceStateKey] as? String {
+            let pluggedIn = powerSource == kIOPSACPowerValue
+            if isPluggedIn != pluggedIn {
+                isPluggedIn = pluggedIn
+            }
         }
 
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-
-            if let currentCapacity = info[kIOPSCurrentCapacityKey] as? Int {
-                self.batteryLevel = currentCapacity
-            }
-
-            if let isCharging = info[kIOPSIsChargingKey] as? Bool {
-                self.isCharging = isCharging
-            }
-
-            if let powerSource = info[kIOPSPowerSourceStateKey] as? String {
-                self.isPluggedIn = (powerSource == kIOPSACPowerValue)
-            }
-
-            if let timeToEmpty = info[kIOPSTimeToEmptyKey] as? Int, timeToEmpty > 0 {
-                self.timeRemaining = timeToEmpty
-            } else if let timeToFull = info[kIOPSTimeToFullChargeKey] as? Int, timeToFull > 0 {
-                self.timeRemaining = timeToFull
-            } else {
-                self.timeRemaining = nil
-            }
-
-            self.cycleCount = self.getCycleCount()
-            self.batteryHealth = self.getBatteryHealth()
+        let minutes: Int?
+        if isCharging {
+            minutes = info[kIOPSTimeToFullChargeKey] as? Int
+        } else if !isPluggedIn {
+            minutes = info[kIOPSTimeToEmptyKey] as? Int
+        } else {
+            minutes = nil
+        }
+        let remaining = minutes.flatMap { $0 >= 0 ? $0 : nil }
+        if timeRemaining != remaining {
+            timeRemaining = remaining
         }
     }
 
-    private func getCycleCount() -> Int? {
-        let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
-        guard service != 0 else { return nil }
-        defer { IOServiceClose(service) }
+    // 詳細画面を開いたときだけ取得する。短時間の開閉では再取得しない。
+    func refreshBatteryDetailsIfNeeded(at uptime: TimeInterval = ProcessInfo.processInfo.systemUptime) {
+        if let lastDetailsUpdate, uptime - lastDetailsUpdate < 300 { return }
+        let details = detailsProvider()
+        lastDetailsUpdate = uptime
+        if cycleCount != details.cycleCount {
+            cycleCount = details.cycleCount
+        }
+        if batteryHealth != details.health {
+            batteryHealth = details.health
+        }
+    }
 
-        if let cycleCountRef = IORegistryEntryCreateCFProperty(service, "CycleCount" as CFString, kCFAllocatorDefault, 0) {
-            return cycleCountRef.takeRetainedValue() as? Int
+    nonisolated private static func readPowerSourceInfo() -> [String: Any]? {
+        guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+              let sources = IOPSCopyPowerSourcesList(snapshot)?.takeRetainedValue() as? [CFTypeRef] else {
+            return nil
+        }
+        for source in sources {
+            if let info = IOPSGetPowerSourceDescription(snapshot, source)?.takeUnretainedValue() as? [String: Any],
+               info[kIOPSTypeKey] as? String == kIOPSInternalBatteryType {
+                return info
+            }
         }
         return nil
     }
 
-    private func getBatteryHealth() -> String {
+    nonisolated private static func readBatteryDetails() -> BatteryDetails {
+        // サイクル数と健康度で同じサービスを共有し、取得・解放は一度にまとめる。
         let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
-        guard service != 0 else { return "不明" }
-        defer { IOServiceClose(service) }
+        guard service != 0 else { return BatteryDetails() }
+        defer { IOObjectRelease(service) }
 
-        if let maxCapacityRef = IORegistryEntryCreateCFProperty(service, "MaxCapacity" as CFString, kCFAllocatorDefault, 0),
-           let designCapacityRef = IORegistryEntryCreateCFProperty(service, "DesignCapacity" as CFString, kCFAllocatorDefault, 0) {
-            let maxCapacity = maxCapacityRef.takeRetainedValue() as? Int ?? 0
-            let designCapacity = designCapacityRef.takeRetainedValue() as? Int ?? 1
-            let healthPercent = (maxCapacity * 100) / designCapacity
-            return "\(healthPercent)%"
+        func integerProperty(_ key: String) -> Int? {
+            IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?
+                .takeRetainedValue() as? Int
         }
-        return "不明"
+
+        var details = BatteryDetails(cycleCount: integerProperty("CycleCount"))
+        #if arch(arm64)
+        let maxCapacity = integerProperty("AppleRawMaxCapacity") ?? integerProperty("NominalChargeCapacity")
+        #else
+        let maxCapacity = integerProperty("MaxCapacity")
+        #endif
+        if let maxCapacity, maxCapacity > 0,
+           let designCapacity = integerProperty("DesignCapacity"), designCapacity > 0 {
+            let percent = min(100, Double(maxCapacity) / Double(designCapacity) * 100)
+            details.health = "\(Int(percent.rounded()))%"
+        }
+        return details
     }
 
     var batteryIcon: String {
@@ -132,6 +201,9 @@ class BatteryMonitor: ObservableObject {
     }
 
     var timeRemainingText: String {
+        if isPluggedIn && !isCharging {
+            return batteryLevel >= 100 ? "充電完了" : "—"
+        }
         guard let minutes = timeRemaining else {
             return "計算中..."
         }

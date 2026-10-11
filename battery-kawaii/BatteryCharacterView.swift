@@ -11,9 +11,9 @@ import AppKit
 // MARK: - SwiftUI View を NSImage に変換する拡張
 extension View {
     @MainActor
-    func renderAsImage(size: CGSize) -> NSImage {
+    func renderAsImage(size: CGSize, scale: CGFloat) -> NSImage {
         let renderer = ImageRenderer(content: self.frame(width: size.width, height: size.height))
-        renderer.scale = 2.0  // Retina対応
+        renderer.scale = scale
 
         if let cgImage = renderer.cgImage {
             return NSImage(cgImage: cgImage, size: size)
@@ -23,13 +23,33 @@ extension View {
 }
 
 // MARK: - メニューバー用の Image を生成
+@MainActor
 struct MenuBarCharacterProvider {
-    @MainActor
-    static func getImage(batteryLevel: Int, isCharging: Bool) -> Image {
+    private struct CacheKey: Equatable {
+        let batteryLevel: Int
+        let isCharging: Bool
+        let colorScheme: ColorScheme
+        let scale: CGFloat
+    }
+
+    // 直近の一枚だけ保持し、残り時間などの更新で画像を作り直さない。
+    private static var cachedImage: (key: CacheKey, image: NSImage)?
+
+    static func getImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat) -> Image {
+        Image(nsImage: getNSImage(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale))
+    }
+
+    static func getNSImage(batteryLevel: Int, isCharging: Bool, colorScheme: ColorScheme, scale: CGFloat) -> NSImage {
+        let key = CacheKey(batteryLevel: batteryLevel, isCharging: isCharging, colorScheme: colorScheme, scale: scale)
+        if let cachedImage, cachedImage.key == key {
+            return cachedImage.image
+        }
         let view = BatteryCharacterView(batteryLevel: batteryLevel, isCharging: isCharging)
-        let nsImage = view.renderAsImage(size: CGSize(width: 18, height: 22))
+            .environment(\.colorScheme, colorScheme)
+        let nsImage = view.renderAsImage(size: CGSize(width: 18, height: 22), scale: scale)
         nsImage.isTemplate = false  // カラーで表示
-        return Image(nsImage: nsImage)
+        cachedImage = (key, nsImage)
+        return nsImage
     }
 }
 
