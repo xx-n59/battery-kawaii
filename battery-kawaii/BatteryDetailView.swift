@@ -49,10 +49,10 @@ struct BatteryDetailView: View {
 
             // 詳細情報
             VStack(spacing: 8) {
-                DetailRow(title: "残り時間", value: monitor.timeRemainingText)
-                DetailRow(title: "バッテリー健康状態", value: monitor.batteryHealth)
+                DetailRow(title: "Time remaining", value: monitor.timeRemainingText)
+                DetailRow(title: "Battery health", value: monitor.batteryHealth)
                 if let cycles = monitor.cycleCount {
-                    DetailRow(title: "サイクルカウント", value: "\(cycles)回")
+                    DetailRow(title: "Cycle count", value: String(localized: "\(cycles) cycles", comment: "Number of battery charge cycles. Use the appropriate plural form."))
                 }
             }
             .padding(.horizontal)
@@ -70,7 +70,7 @@ struct BatteryDetailView: View {
             }) {
                 HStack {
                     Image(systemName: "power")
-                    Text("終了")
+                    Text("Quit")
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -110,7 +110,7 @@ struct BatteryDetailView: View {
 }
 
 struct DetailRow: View {
-    let title: String
+    let title: LocalizedStringKey
     let value: String
 
     var body: some View {

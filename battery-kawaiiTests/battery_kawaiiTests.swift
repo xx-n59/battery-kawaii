@@ -85,7 +85,7 @@ struct battery_kawaiiTests {
         monitor.refreshBatteryDetailsIfNeeded(at: 101)
         #expect(reads == 1)
         #expect(monitor.cycleCount == nil)
-        #expect(monitor.batteryHealth == "不明")
+        #expect(monitor.batteryHealth == String(localized: "Unknown", bundle: Bundle(for: BatteryMonitor.self)))
     }
 
     @Test func chargingStateSelectsTheCorrectTime() {
@@ -106,7 +106,7 @@ struct battery_kawaiiTests {
 
         info[kIOPSCurrentCapacityKey] = 100
         monitor.updateBatteryInfo()
-        #expect(monitor.timeRemainingText == "充電完了")
+        #expect(monitor.timeRemainingText == String(localized: "Charge complete", bundle: Bundle(for: BatteryMonitor.self)))
     }
 
     @Test func monitoringCanRestartAndDoesNotRetainTheMonitor() {

@@ -14,12 +14,12 @@ enum BatteryDesign: String, CaseIterable, Identifiable {
 
     var name: String {
         switch self {
-        case .classic: "クラシック"
-        case .cat: "ねこ"
-        case .bunny: "うさぎ"
-        case .bear: "くま"
-        case .robot: "ロボット"
-        case .pixel: "ピクセル"
+        case .classic: String(localized: "Classic")
+        case .cat: String(localized: "Cat")
+        case .bunny: String(localized: "Bunny")
+        case .bear: String(localized: "Bear")
+        case .robot: String(localized: "Robot")
+        case .pixel: String(localized: "Pixel")
         }
     }
 
@@ -43,7 +43,7 @@ struct BatteryDesignPicker: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("デザイン")
+                Text("Design")
                     .font(.system(size: 13, weight: .semibold))
                 Spacer()
                 Text(selection.name)
@@ -87,7 +87,7 @@ struct BatteryDesignPicker: View {
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                     }
                     .buttonStyle(.plain)
-                    .help("\(design.name)をメニューバーに表示")
+                    .help(String(localized: "Show \(design.name) in the menu bar", comment: "Tooltip for choosing a character design. The argument is its localized name."))
                     .accessibilityLabel(design.name)
                     .accessibilityAddTraits(selection == design ? [.isSelected] : [])
                     .accessibilityIdentifier("battery-design-\(design.rawValue)")
