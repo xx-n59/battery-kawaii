@@ -1,0 +1,25 @@
+Generator: built-in image_gen
+Selected asset: battery-kawaii-app-icon.png
+
+INITIAL GENERATION PROMPT
+
+Use case: stylized-concept
+Asset type: Production macOS application icon for "battery-kawaii"; a single finished square raster icon, ideally 1024 x 1024 pixels.
+Primary request: Create a beautifully crafted, friendly app icon for a lightweight Mac menu bar battery companion. Use the app's existing classic character idea: a small upright green battery with a cute, simple smiling face.
+Scene/backdrop: A softly rounded off-white square app-icon tile, perfectly centered, occupying about 82% of the canvas width and height. Fully transparent canvas outside the tile, including the rounded corners. A faint natural contact shadow may surround the tile. This is the actual icon asset, not an icon shown on a desktop or a presentation.
+Subject: One centered upright rounded-rectangle battery mascot, with a clearly visible short rounded positive terminal at its top. The battery is a rich yet gentle mint-green enamel object, subtly lighter at the top, with a soft ivory rim and filled green interior. It occupies about 64% of the tile height and 49% of its width. Two bold glossy deep forest-green oval eyes and a little upturned U-shaped smile give it a calm, warm personality. Very subtle rosy cheeks. The silhouette must unmistakably read as a battery, not a phone or game console.
+Style/medium: Premium macOS app-icon craft; restrained soft 3D relief, smooth satin ceramic and enamel, friendly Japanese character design, crisp controlled edges. Straight-on orthographic composition; no isometric angle or visible side plane. Soft upper-left light with a shallow shadow under the mascot.
+Composition/framing: Exactly one tile and one mascot, centered with balanced generous spacing. The face is large and simple enough to remain readable when reduced to 32 pixels. Use broad simple shapes, never tiny decorative details.
+Color palette: Fresh mint and leafy green, warm ivory background, very dark green face, tiny understated pink cheek accents.
+Text: None.
+Constraints: Actual transparent alpha outside the tile. No letters, numbers, percent symbol, logos, watermarks, cables, arms, legs, accessories, floating sparkles, extra characters, borders around the full canvas, busy scene, checkerboard pattern, realistic photographic grain, or exaggerated glass glare. The tile should stay light and the green character should have strong silhouette contrast.
+
+FINAL EDIT PROMPT (applied to the initial generated icon)
+
+Use case: precise-object-edit
+Asset type: Production macOS app icon with real transparent surroundings.
+Edit target: The supplied battery icon.
+Preserve the green battery mascot and its facial expression, ivory battery rim, proportions and centered composition exactly.
+Change the outer tile only: make it a uniform soft sage green rounded square instead of ivory (approximately RGB 183, 214, 174), with a crisp clean geometric silhouette and no outer drop shadow at all. Slight satin shading is allowed well inside the tile but the outer boundary must be a hard, smooth antialiased edge with absolutely no glow, fuzzy shadow, white marks, flecks or protrusions. All pixels immediately outside the outer rounded square must be fully transparent. Do not put anything white along the outer edge. The battery can cast its small natural shadow INSIDE the tile.
+Keep exactly one centered rounded-square tile on a square canvas with generous transparent margins. No text or additional objects.
+

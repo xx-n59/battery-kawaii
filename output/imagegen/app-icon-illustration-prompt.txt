@@ -1,0 +1,15 @@
+Generator: built-in image_gen
+Selected asset: battery-kawaii-app-icon-illustration.png
+Reference: battery-kawaii-app-icon.png (previous 3D version)
+
+Use case: style-transfer
+Asset type: A finished macOS application icon for battery-kawaii, square canvas, 1024 x 1024 if possible.
+Input image: Edit target and subject reference only. The user dislikes its glossy 3D, AI-rendered appearance and explicitly wants an illustrated icon.
+Primary request: Completely redraw this icon as a simple, charming TWO-DIMENSIONAL hand-drawn illustration. Keep the idea of one upright green battery with a friendly little face, centered on a softly rounded square tile. Change the visual language completely.
+Illustration style: Confident slightly organic dark forest-green ink contours, broad simple flat shapes, restrained cheerful Japanese stationery illustration. Subtle natural irregularity in the line is welcome, but edges stay crisp. Very limited palette. Flat matte fills throughout, no gradients and no shading whatsoever.
+Subject: A squat upright battery with softly rounded corners and a small short positive terminal on top. The body has a clear dark-green outline and a flat fresh sage/mint green fill. A slim unfilled cream strip at the very top can suggest the battery's charge level. It is a drawn battery, not a plastic object with a thick ivory casing. Two small SOLID dark oval dot eyes (no white reflections), one simple curved ink smile, and two tiny flat muted peach cheek marks. The facial features are bold and legible at small size. Friendly, quiet, slightly playful.
+Composition: One large battery, visually centered. Battery including its terminal takes about 62 percent of the canvas height and 43 percent of the canvas width. No hands, feet, wires, or surrounding objects. The rounded square background tile occupies about 82 percent of the canvas, with even transparent margins.
+Background: A single uniform warm ivory rounded-square tile. A very thin clean dark-green ink border around the tile is allowed, much thinner than the battery outline. Outside the tile is truly transparent. No shadows either inside or outside.
+Avoid strictly: 3D, bevels, inflated or pillowy forms, glossy eyes, highlights, specular reflections, ceramic or glass or plastic material, gradients, ambient occlusion, drop shadows, photorealism, simulated lighting, faux paper noise, text, letters, numbers, logos, sparkle stars, extra decorative elements, checkerboard backgrounds.
+Deliver one finished illustrated app icon, not a comparison sheet or presentation.
+

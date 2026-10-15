@@ -453,7 +453,7 @@ struct Triangle: Shape {
         HStack(spacing: 20) {
             VStack {
                 BatteryCharacterView(batteryLevel: 50, isCharging: true)
-                Text("充電中")
+                Text("Charging")
             }
         }
     }

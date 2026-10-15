@@ -13,7 +13,7 @@ import IOKit.ps
 final class BatteryMonitor: ObservableObject {
     struct BatteryDetails {
         var cycleCount: Int? = nil
-        var health: String = "不明"
+        var health: String = String(localized: "Unknown")
     }
 
     @Published private(set) var batteryLevel: Int = 100
@@ -21,7 +21,7 @@ final class BatteryMonitor: ObservableObject {
     @Published private(set) var isPluggedIn: Bool = false
     @Published private(set) var timeRemaining: Int? = nil
     @Published private(set) var cycleCount: Int? = nil
-    @Published private(set) var batteryHealth: String = "不明"
+    @Published private(set) var batteryHealth: String = String(localized: "Unknown")
 
     private var notificationSource: CFRunLoopSource?
     private var fallbackTimer: Timer?
@@ -190,29 +190,29 @@ final class BatteryMonitor: ObservableObject {
 
     var statusText: String {
         if isCharging {
-            return "充電中"
+            return String(localized: "Charging")
         } else if isPluggedIn && batteryLevel >= 100 {
-            return "完全充電済み"
+            return String(localized: "Fully charged")
         } else if isPluggedIn {
-            return "電源接続中"
+            return String(localized: "Power adapter connected")
         } else {
-            return "バッテリー駆動"
+            return String(localized: "On battery power")
         }
     }
 
     var timeRemainingText: String {
         if isPluggedIn && !isCharging {
-            return batteryLevel >= 100 ? "充電完了" : "—"
+            return batteryLevel >= 100 ? String(localized: "Charge complete") : "—"
         }
         guard let minutes = timeRemaining else {
-            return "計算中..."
+            return String(localized: "Calculating…")
         }
         let hours = minutes / 60
         let mins = minutes % 60
         if isCharging {
-            return "完了まで \(hours)時間\(mins)分"
+            return String(localized: "\(hours) hr \(mins) min until full", comment: "Estimated time until the battery is fully charged. Arguments are hours and minutes.")
         } else {
-            return "残り \(hours)時間\(mins)分"
+            return String(localized: "\(hours) hr \(mins) min remaining", comment: "Estimated battery runtime. Arguments are hours and minutes.")
         }
     }
 }

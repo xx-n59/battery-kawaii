@@ -43,6 +43,13 @@ struct MenuBarLabel: View {
                 .monospacedDigit()
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("バッテリー \(batteryLevel)%、\(design.name)\(isCharging ? "、充電中" : "")")
+        .accessibilityLabel(accessibilityDescription)
+    }
+
+    var accessibilityDescription: String {
+        if isCharging {
+            return String(localized: "Battery \(batteryLevel)%, \(design.name), charging", comment: "Menu bar accessibility label. Arguments are battery percentage and localized design name.")
+        }
+        return String(localized: "Battery \(batteryLevel)%, \(design.name)", comment: "Menu bar accessibility label. Arguments are battery percentage and localized design name.")
     }
 }
